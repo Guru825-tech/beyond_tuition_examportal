@@ -1,0 +1,367 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beyond Tuition - Quiz</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f6fb;
+            padding: 25px;
+        }
+
+        .quiz-container {
+            max-width: 750px;
+            margin: 30px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            color: #243b64;
+            margin-bottom: 10px;
+        }
+
+        .progress {
+            color: #666;
+            margin: 20px 0 10px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 25px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: #ff8c32;
+            transition: 0.3s;
+        }
+
+        #question {
+            font-size: 21px;
+            margin-bottom: 22px;
+            color: #222;
+            line-height: 1.5;
+        }
+
+        .option {
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 9px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .option:hover {
+            background: #fff4e9;
+            border-color: #ff8c32;
+        }
+
+        .option.selected {
+            background: #fff0e2;
+            border: 2px solid #ff8c32;
+        }
+
+        .option.correct {
+            background: #e5f8e9;
+            border-color: #28a745;
+        }
+
+        .option.wrong {
+            background: #ffe8e8;
+            border-color: #dc3545;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 7px;
+            background: #243b64;
+            color: white;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .submit-btn {
+            background: #ff8c32;
+        }
+
+        #result {
+            display: none;
+            text-align: center;
+        }
+
+        #result h2 {
+            margin-bottom: 15px;
+        }
+
+        .review {
+            text-align: left;
+            margin-top: 25px;
+        }
+
+        .review-item {
+            background: #f5f6fa;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            line-height: 1.6;
+        }
+
+        .correct-text {
+            color: #198754;
+        }
+
+        .wrong-text {
+            color: #dc3545;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            .quiz-container {
+                padding: 20px;
+            }
+
+            .buttons button {
+                padding: 11px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="quiz-container" id="quizBox">
+
+    <h2>Beyond Tuition Quiz</h2>
+    <p>Class 6 - General Knowledge</p>
+
+    <div class="progress">
+        <span id="questionNumber"></span>
+    </div>
+
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <h3 id="question"></h3>
+
+    <div id="options"></div>
+
+    <div class="buttons">
+        <button id="prevBtn" onclick="previousQuestion()">Previous</button>
+        <button id="nextBtn" onclick="nextQuestion()">Next</button>
+        <button id="submitBtn" class="submit-btn"
+            onclick="submitQuiz()" style="display:none">
+            Submit Quiz
+        </button>
+    </div>
+
+</div>
+
+<div class="quiz-container" id="result" >
+    <h2>Quiz Completed!</h2>
+    <h3 id="score"></h3>
+    <p id="percentage"></p>
+
+    <div class="review" id="review"></div>
+
+    <button onclick="location.reload()">Try Again</button>
+</div>
+
+<script src="question.js"></script>
+
+<script>
+const urlParams = new URLSearchParams(window.location.search);
+
+const standard = urlParams.get("class");
+
+const questions = questionBank[standard];
+
+    let currentQuestion = 0;
+    let userAnswers = {};
+
+    if (!questions || questions.length === 0) {
+        document.getElementById("quizBox").innerHTML =
+            "<h2>No questions available!</h2>";
+    } else {
+        showQuestion();
+    }
+
+    function showQuestion() {
+
+        const q = questions[currentQuestion];
+
+        document.getElementById("questionNumber").innerText =
+            `Question ${currentQuestion + 1} of ${questions.length}`;
+
+        document.getElementById("question").innerText = q.question;
+
+        document.getElementById("progressFill").style.width =
+            ((currentQuestion + 1) / questions.length * 100) + "%";
+
+        const optionsDiv = document.getElementById("options");
+        optionsDiv.innerHTML = "";
+
+        for (let key in q.options) {
+
+            const div = document.createElement("div");
+
+            div.className = "option";
+            div.innerText = key + ". " + q.options[key];
+
+            if (userAnswers[currentQuestion] === key) {
+                div.classList.add("selected");
+            }
+
+            div.onclick = function () {
+
+                userAnswers[currentQuestion] = key;
+                showQuestion();
+
+            };
+
+            optionsDiv.appendChild(div);
+        }
+
+        document.getElementById("prevBtn").disabled =
+            currentQuestion === 0;
+
+        document.getElementById("nextBtn").style.display =
+            currentQuestion === questions.length - 1 ? "none" : "block";
+
+        document.getElementById("submitBtn").style.display =
+            currentQuestion === questions.length - 1 ? "block" : "none";
+    }
+
+    function nextQuestion() {
+
+        if (currentQuestion < questions.length - 1) {
+            currentQuestion++;
+            showQuestion();
+        }
+
+    }
+
+    function previousQuestion() {
+
+        if (currentQuestion > 0) {
+            currentQuestion--;
+            showQuestion();
+        }
+
+    }
+
+    function submitQuiz() {
+
+        const unanswered = questions.filter((q, index) =>
+            !userAnswers[index]
+        ).length;
+
+        if (unanswered > 0) {
+            alert(`Please answer all questions. ${unanswered} questions remaining.`);
+            return;
+        }
+
+        let score = 0;
+
+        questions.forEach((q, index) => {
+
+            if (userAnswers[index] === q.answer) {
+                score++;
+            }
+
+        });
+
+        const percentage = (score / questions.length) * 100;
+
+        document.getElementById("quizBox").style.display = "none";
+
+        document.getElementById("result").style.display = "block";
+
+        document.getElementById("score").innerText =
+            `Your Score: ${score} / ${questions.length}`;
+
+        document.getElementById("percentage").innerText =
+            `Percentage: ${percentage.toFixed(2)}%`;
+
+        showReview();
+
+    }
+
+    function showReview() {
+
+        const reviewDiv = document.getElementById("review");
+
+        reviewDiv.innerHTML = "<h3>Answer Review</h3>";
+
+        questions.forEach((q, index) => {
+
+            const selected = userAnswers[index];
+            const correct = q.answer;
+
+            const item = document.createElement("div");
+            item.className = "review-item";
+
+            const heading = document.createElement("p");
+            heading.innerText = `${index + 1}. ${q.question}`;
+
+            const yourAnswer = document.createElement("p");
+            yourAnswer.innerText =
+                `Your Answer: ${selected}. ${q.options[selected]}`;
+
+            yourAnswer.className =
+                selected === correct ? "correct-text" : "wrong-text";
+
+            const correctAnswer = document.createElement("p");
+            correctAnswer.innerText =
+                `Correct Answer: ${correct}. ${q.options[correct]}`;
+
+            correctAnswer.className = "correct-text";
+
+            item.append(heading, yourAnswer, correctAnswer);
+
+            reviewDiv.appendChild(item);
+
+        });
+
+    }
+
+</script>
+
+</body>
+</html>

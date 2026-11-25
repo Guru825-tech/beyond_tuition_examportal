@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Start Exam | Beyond Tuition</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: #f7faff;
+    }
+
+    .main-card {
+      box-shadow: 0 15px 45px rgba(37, 99, 235, 0.10);
+    }
+
+    .start-btn {
+      transition: all 0.3s ease;
+    }
+
+    .start-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 25px rgba(37, 99, 235, 0.3);
+    }
+
+    .floating {
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+  </style>
+</head>
+
+<body class="min-h-screen text-slate-800">
+
+  <!-- Header -->
+  <header class="bg-white border-b border-blue-100 px-6 py-5">
+
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+
+      <div class="flex items-center gap-3">
+        <div class="text-4xl">🎓</div>
+
+        <div>
+          <h1 class="text-xl md:text-2xl font-extrabold text-blue-950">
+            BEYOND <span class="text-blue-600">TUITION</span>
+          </h1>
+
+          <p class="text-xs text-slate-500">
+            Learn Beyond Boundaries
+          </p>
+        </div>
+      </div>
+
+      <div class="bg-blue-50 text-blue-800 px-4 py-2 rounded-full font-semibold text-sm">
+        📚 <span id="classBadge">Standard</span>
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- Main -->
+  <main class="max-w-6xl mx-auto px-5 py-10 md:py-16">
+
+    <!-- Back Button -->
+    <button onclick="goHome()"
+      class="text-blue-600 font-semibold hover:text-blue-800 mb-7">
+      ← Back to Classes
+    </button>
+
+
+    <div class="main-card bg-white rounded-[30px] overflow-hidden border border-blue-100">
+
+      <div class="grid md:grid-cols-2 items-center">
+
+        <!-- Student Illustration -->
+        <section class="bg-gradient-to-br from-blue-50 via-white to-indigo-100 p-8 md:p-12 text-center">
+
+          <div class="floating text-8xl md:text-9xl mb-6">
+            👦🏻
+          </div>
+
+          <h2 class="text-3xl md:text-4xl font-extrabold text-blue-950">
+            All the Best!
+          </h2>
+
+          <p class="text-blue-700 mt-3 text-lg font-medium">
+            Believe in yourself ✨
+          </p>
+
+          <p class="text-slate-500 mt-2">
+            You can do it. Give your best!
+          </p>
+
+          <div class="mt-7 flex justify-center gap-3 text-3xl">
+            <span>⭐</span>
+            <span>📚</span>
+            <span>✨</span>
+            <span>🏆</span>
+          </div>
+
+        </section>
+
+
+        <!-- Exam Details -->
+        <section class="p-6 md:p-10">
+
+          <div class="inline-block bg-blue-100 text-blue-700 px-4 py-2 rounded-full font-semibold text-sm mb-4">
+            📝 Online Examination
+          </div>
+
+          <h2 class="text-3xl font-extrabold text-blue-950 mb-2">
+            <span id="classTitle">Standard</span>
+          </h2>
+
+          <p class="text-slate-500 mb-7">
+            Get ready to test your knowledge!
+          </p>
+
+
+          <!-- Exam Details Card -->
+          <div class="bg-blue-50 rounded-2xl p-5">
+
+            <h3 class="font-bold text-blue-950 text-lg mb-5">
+              Exam Details
+            </h3>
+
+            <div class="grid grid-cols-2 gap-4">
+
+              <div class="bg-white rounded-xl p-4 text-center">
+                <div class="text-3xl mb-2">📋</div>
+                <p class="text-sm text-slate-500">Total Questions</p>
+                <h4 class="text-2xl font-extrabold text-blue-900">25</h4>
+              </div>
+
+              <div class="bg-white rounded-xl p-4 text-center">
+                <div class="text-3xl mb-2">🏆</div>
+                <p class="text-sm text-slate-500">Total Marks</p>
+                <h4 class="text-2xl font-extrabold text-green-700">25</h4>
+              </div>
+
+              <div class="bg-white rounded-xl p-4 text-center">
+                <div class="text-3xl mb-2">☑️</div>
+                <p class="text-sm text-slate-500">Exam Type</p>
+                <h4 class="text-lg font-bold text-purple-700">MCQ</h4>
+              </div>
+
+              <div class="bg-white rounded-xl p-4 text-center">
+                <div class="text-3xl mb-2">⏳</div>
+                <p class="text-sm text-slate-500">Time Limit</p>
+                <h4 class="text-lg font-bold text-orange-600">No Timer</h4>
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- Instructions -->
+          <div class="mt-5 bg-amber-50 border border-amber-100 rounded-2xl p-5">
+
+            <h3 class="font-bold text-amber-800 mb-3">
+              💡 Instructions
+            </h3>
+
+            <ul class="space-y-2 text-sm text-slate-700">
+              <li>✅ Read every question carefully.</li>
+              <li>✅ Select one correct answer.</li>
+              <li>✅ Each correct answer carries 1 mark.</li>
+              <li>✅ There is no time limit.</li>
+              <li>✅ Check your answers before submitting.</li>
+            </ul>
+
+          </div>
+
+
+          <!-- Start Exam -->
+          <button onclick="startExam()"
+            class="start-btn mt-7 w-full bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-4 rounded-2xl font-bold text-lg shadow-lg">
+
+            ▶ Start Exam
+
+          </button>
+
+          <p class="text-center text-slate-400 text-xs mt-4">
+            Learn • Practice • Achieve
+          </p>
+
+        </section>
+
+      </div>
+
+    </div>
+
+  </main>
+
+
+  <!-- JavaScript -->
+  <script>
+
+    // Get selected class from localStorage
+    const selectedClass = localStorage.getItem("selectedClass");
+
+    // Check class selection
+    if (!selectedClass) {
+        alert("Please select your class first!");
+        window.location.href = "index.html";
+    } else {
+
+        // Display class name
+        document.getElementById("classTitle").textContent =
+            selectedClass + "th Standard";
+
+        document.getElementById("classBadge").textContent =
+            selectedClass + "th";
+    }
+
+    // Back to home
+    function goHome() {
+        window.location.href = "index.html";
+    }
+
+    // Start exam
+    function startExam() {
+
+        if (!selectedClass) {
+            alert("Please select your class first!");
+            window.location.href = "index.html";
+            return;
+        }
+
+        window.location.href = `quiz.html?class=${selectedClass}`;
+    }
+
+</script>
+
+</body>
+</html>

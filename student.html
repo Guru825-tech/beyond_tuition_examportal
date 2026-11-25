@@ -1,0 +1,87 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Details - Beyond Tuition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen bg-blue-50 flex items-center justify-center p-5">
+
+    <div class="bg-white w-full max-w-md p-8 rounded-2xl shadow-xl">
+
+        <h1 class="text-3xl font-bold text-blue-700 text-center">
+            Beyond Tuition
+        </h1>
+
+        <p class="text-gray-500 text-center mt-2">
+            Enter Student Details
+        </p>
+
+        <form id="studentForm" class="mt-8">
+
+            <label class="block font-semibold mb-2">
+                Student Name
+            </label>
+
+            <input
+                type="text"
+                id="studentName"
+                placeholder="Enter your name"
+                required
+                class="w-full border rounded-lg p-3 mb-5 outline-blue-500"
+            >
+
+            <label class="block font-semibold mb-2">
+                Selected Class
+            </label>
+
+            <input
+                type="text"
+                id="studentClass"
+                readonly
+                class="w-full border rounded-lg p-3 mb-6 bg-gray-100"
+            >
+
+            <button
+                type="submit"
+                class="w-full bg-blue-600 text-white font-bold p-3 rounded-lg hover:bg-blue-700">
+                Next - Start Exam
+            </button>
+
+        </form>
+
+    </div>
+
+    <script>
+        const selectedClass = localStorage.getItem("selectedClass");
+
+        if (!selectedClass) {
+            alert("Please select your class first!");
+            window.location.href = "index.html";
+        }
+
+        document.getElementById("studentClass").value =
+            selectedClass ? selectedClass + "th Standard" : "";
+
+        document.getElementById("studentForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById("studentName").value.trim();
+
+            if (!name) {
+                alert("Please enter your name");
+                return;
+            }
+
+            localStorage.setItem("studentName", name);
+            localStorage.setItem("studentClass", selectedClass);
+
+            window.location.href = "exam.html";
+        });
+    </script>
+
+</body>
+</html>
